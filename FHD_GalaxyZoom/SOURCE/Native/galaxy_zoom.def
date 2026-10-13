@@ -1,0 +1,4 @@
+LIBRARY FHDGalaxyZoom.dll
+EXPORTS
+ FHDZoom_Init=FHDZoom_Init
+ FHDZoom_Status=FHDZoom_Status
