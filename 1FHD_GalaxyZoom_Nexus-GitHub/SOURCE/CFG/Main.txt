@@ -1,0 +1,24 @@
+Data ^{
+    ScriptLibs ^{
+        FHDGalaxyZoomNative ~{
+            Path=Mods\FHD_MODS\FHD_GalaxyZoom\Native\FHDGalaxyZoom.dll
+            FHDZoom_Init=int,FHDZoom_Init
+            FHDZoom_Status=int,FHDZoom_Status
+        }
+        GalaxyZoom=FHDGalaxyZoomNative
+    }
+}
+BV ^{
+    OnStart ^{
+        FHDGalaxyZoomInit ~{
+            00=unknown init=ImportedFunction('FHDGalaxyZoomNative','FHDZoom_Init');
+            01=init();
+        }
+    }
+    OnLoad ^{
+        FHDGalaxyZoomInit ~{
+            00=unknown init=ImportedFunction('FHDGalaxyZoomNative','FHDZoom_Init');
+            01=init();
+        }
+    }
+}

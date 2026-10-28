@@ -1,0 +1,89 @@
+{
+  "runtime_files": 3,
+  "source_derived_files": 3,
+  "prebuilt_runtime_inputs_used": false,
+  "all_files_byte_identical_to_upload": false,
+  "different_from_upload": [
+    "Native/FHDGalaxyZoom.dll"
+  ],
+  "reason_for_native_difference": "Unchanged uploaded C compiled with available GCC/binutils; original PE linker is 2.44, available linker is 2.42. Original compiler version is unknown. Code-generation equality is not established.",
+  "python": "3.12.14",
+  "zlib": "1.3.2",
+  "gcc": "gcc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0",
+  "ld": "GNU ld (GNU Binutils for Ubuntu) 2.42",
+  "native_pe": {
+    "machine": "i386 PE32 DLL",
+    "exports": [
+      "FHDZoom_Init",
+      "FHDZoom_Status"
+    ],
+    "entry_rva": "0x3ce0",
+    "image_base": "0x13600000",
+    "image_size": "0x60000",
+    "base_relocations_present": true,
+    "static_imports": [],
+    "linker_version": "2.42"
+  },
+  "sha256": {
+    "CFG/Main.dat": "c0520ebf6053decf66e65d558036d51b96c05bbd3165924150de70b6fb4aeb17",
+    "ModuleInfo.txt": "d66d511144cfdd1755436e253ed3583b12e1b36a83a25e299a98cc9416592af8",
+    "Native/FHDGalaxyZoom.dll": "36cd0d8547a0aff514e09453ad9d1bcaed0deddb8da4890a754976aef629e570"
+  },
+  "original_sha256": {
+    "CFG/Main.dat": "c0520ebf6053decf66e65d558036d51b96c05bbd3165924150de70b6fb4aeb17",
+    "ModuleInfo.txt": "d66d511144cfdd1755436e253ed3583b12e1b36a83a25e299a98cc9416592af8",
+    "Native/FHDGalaxyZoom.dll": "5f87900fa653455f7e0a485fbdda57ec83a366dc7c4ff5dfea44d008129156c4"
+  },
+  "package_sha256": "0b3a9e587d2bd28a076dd9f7b18db7b99b8d8504f500f96ed18b09776a85cd63",
+  "live_game_executed": false,
+  "verified_date": "2026-10-28",
+  "input_archive": "FHD_GalaxyZoom_v0.1.5_ALPHA_AModLite_MarkerFix.zip",
+  "input_archive_sha256": "0c6a9aa41972825c6cbc190e0ff8bd0b5988f76264c6af6e0ed617b9811f832a",
+  "input_files": 13,
+  "original_c_unchanged": true,
+  "original_c_sha256": "8624a8c477df6de5e49c6a661e08d54f73464a3ce3cf579e15704065b0369adc",
+  "original_native_pe": {
+    "machine": "i386 PE32 DLL",
+    "exports": [
+      "FHDZoom_Init",
+      "FHDZoom_Status"
+    ],
+    "entry_rva": "0x3df0",
+    "image_base": "0x13600000",
+    "image_size": "0x61000",
+    "base_relocations_present": true,
+    "static_imports": [],
+    "linker_version": "2.44"
+  },
+  "unittest": {
+    "passed": 5,
+    "failed": 0
+  },
+  "unicorn": "2.1.4",
+  "native_emulation": {
+    "original_dll_checks_passed": 125,
+    "rebuilt_dll_checks_passed": 125,
+    "default_suite_assertions": 119,
+    "actual_dll_code_executed": true,
+    "relocations_checked": true,
+    "success_initialization_checked": true,
+    "rollback_checked": "Single injected NtProtectVirtualMemory failure at each of 5 installation stages; subsequent restoration calls succeed",
+    "os_apis_and_ui_methods": "controlled fixtures",
+    "old_exe_profiles": "synthetic only",
+    "actual_exe_sha256": "e43a4b15503c705eebe2d8ce5778c2a2fb090db515a3fd86d319e5c5aa692ebf",
+    "actual_exe_provenance": "Previously uploaded with FHD_FindQuest; not bundled here",
+    "actual_exe_galaxy_instance": "synthetic instance using actual executable VMT bytes"
+  },
+  "source_preparation_changes": [
+    "Removed unused external-kit path from DAT helper, resolving shallow-directory IndexError without changing output.",
+    "Added UTF-8 metadata source, complete builder, independent DAT/PE checking, workflow and native-code test suite.",
+    "Replaced three formula-only model scripts with tests executing original and rebuilt DLL code."
+  ],
+  "observed_native_name_parser": "1-4 numeric suffix digits; original Python model allowed 5; native behavior unchanged",
+  "limits": [
+    "Source-built DLL is not byte-identical to upload; original compiler unknown; exhaustive semantic equivalence not established.",
+    "No live Windows game, full map rebuild, real OS API or complete AModGalaxyLite/mod-stack testing.",
+    "Native EXE guards check PE/signatures/VMT, not full-file SHA256.",
+    "Hosted GitHub workflow not executed; no antivirus or moderation verdict."
+  ]
+}
