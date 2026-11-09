@@ -1,0 +1,12 @@
+Name=FHD_GalaxyZoom
+Section=FHD_MODS
+Author=Prolog_D / OpenAI draft
+Dependence=
+Conflict=
+Priority=2
+Languages=Rus
+SmallDescription=Колесо мыши приближает и отдаляет карту галактики.
+FullDescription=Независимый тестовый мод для обычной карты и AModGalaxyLite. Приближение до 3.8x вокруг положения курсора, без изменения интерфейса и исполняемого файла на диске. Поддержка только проверенных сборок Rangers.exe. Требуется тестирование в игре.
+Languages=Eng
+SmallDescription=Galaxy zoom, RMB pan, system marker synchronization.
+FullDescription=Independent alpha for vanilla and AModGalaxyLite maps. Cursor-centered zoom, RMB panning, marker synchronization, galaxy-line clipping. Up to 3.8x. No permanent Rangers.exe changes. In-game validation required.

@@ -1,0 +1,10 @@
+{
+  "version": "0.1.5_ALPHA_AModLite_MarkerFix",
+  "original_zip_sha256": "0c6a9aa41972825c6cbc190e0ff8bd0b5988f76264c6af6e0ed617b9811f832a",
+  "archive_files": 13,
+  "editable_source_files": 11,
+  "all_source_files_byte_exact": true,
+  "main_dat_byte_identical_rebuild": true,
+  "dll_recompiled": false,
+  "game_tested": false
+}
