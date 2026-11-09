@@ -1,0 +1,81 @@
+name: Publish GalaxyZoom v0.1.5 editable sources
+
+on:
+  push:
+    paths:
+      - '.github/workflows/publish-galaxyzoom-source.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  extract-verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Extract source and validate exact Main.dat rebuild
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from zipfile import ZipFile
+          import hashlib, json, subprocess, sys, tempfile
+          root=Path('1FHD_GalaxyZoom_0.1.5_ALPHA_AModLite_MarkerFix_Nexus-GitHub')
+          zipfile=root/'install/FHD_GalaxyZoom_v0.1.5_ALPHA_AModLite_MarkerFix.zip'
+          expected='0c6a9aa41972825c6cbc190e0ff8bd0b5988f76264c6af6e0ed617b9811f832a'
+          sha=lambda b: hashlib.sha256(b).hexdigest()
+          assert sha(zipfile.read_bytes())==expected, 'Original archive changed'
+          prefix='Mods/FHD_MODS/FHD_GalaxyZoom/'
+          manifest=[]
+          source_files=[]
+          with ZipFile(zipfile) as z:
+              assert z.testzip() is None, 'Corrupt ZIP'
+              files=[i for i in z.infolist() if not i.is_dir()]
+              assert len(files)==13, f'Unexpected archive file count: {len(files)}'
+              for entry in files:
+                  assert entry.filename.startswith(prefix), entry.filename
+                  data=z.read(entry)
+                  manifest.append((entry.filename,sha(data),len(data)))
+                  rel=entry.filename[len(prefix):]
+                  if rel.startswith('SOURCE/'):
+                      target=root/rel
+                  elif rel in ('ModuleInfo.txt','README_RU.txt'):
+                      target=root/'SOURCE'/'ORIGINAL'/rel
+                  else:
+                      continue
+                  target.parent.mkdir(parents=True,exist_ok=True)
+                  target.write_bytes(data)
+                  source_files.append((target,entry.filename))
+              assert len(source_files)==11, len(source_files)
+              for target,name in source_files:
+                  assert target.read_bytes()==z.read(name),name
+              with tempfile.TemporaryDirectory() as t:
+                  tmp=Path(t)
+                  for entry in files:
+                      dest=tmp/entry.filename
+                      dest.parent.mkdir(parents=True,exist_ok=True)
+                      dest.write_bytes(z.read(entry))
+                  game=tmp/prefix
+                  original=(game/'CFG/Main.dat').read_bytes()
+                  subprocess.run([sys.executable,str(game/'SOURCE/build_dat.py')],check=True,capture_output=True,text=True)
+                  assert (game/'CFG/Main.dat').read_bytes()==original,'Main.dat rebuild changed bytes'
+          (root/'SHA256SUMS.txt').write_text(''.join(f'{h}  {p}\n' for p,h,n in manifest),encoding='utf-8')
+          (root/'SOURCE_FILES.tsv').write_text('path\tsize\tsha256\n'+''.join(f'{p}\t{n}\t{h}\n' for p,h,n in manifest),encoding='utf-8')
+          report={'version':'0.1.5_ALPHA_AModLite_MarkerFix','original_zip_sha256':expected,'archive_files':len(manifest),'editable_source_files':len(source_files),'all_source_files_byte_exact':True,'main_dat_byte_identical_rebuild':True,'dll_recompiled':False,'game_tested':False}
+          (root/'VALIDATION_REPORT.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+          print('PASS',report)
+          PY
+      - name: Commit extracted source
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- 1FHD_GalaxyZoom_0.1.5_ALPHA_AModLite_MarkerFix_Nexus-GitHub/SOURCE 1FHD_GalaxyZoom_0.1.5_ALPHA_AModLite_MarkerFix_Nexus-GitHub/SHA256SUMS.txt 1FHD_GalaxyZoom_0.1.5_ALPHA_AModLite_MarkerFix_Nexus-GitHub/SOURCE_FILES.tsv 1FHD_GalaxyZoom_0.1.5_ALPHA_AModLite_MarkerFix_Nexus-GitHub/VALIDATION_REPORT.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'Publish GalaxyZoom 0.1.5 original source and validation'
+            git push origin HEAD:main
+          fi
